@@ -9,6 +9,7 @@ rt_uint32_t rt_interrupt_to_thread;
 
 struct exception_stack_frame
 {
+	/* 异常发生时自动保存的寄存器 */
 	rt_uint32_t r0;
 	rt_uint32_t r1;
 	rt_uint32_t r2;
@@ -21,6 +22,8 @@ struct exception_stack_frame
 
 struct stack_frame
 {
+	/* r4 ~ r11 register 
+	  异常发生时需手动保存的寄存器 */
 	rt_uint32_t r4;
 	rt_uint32_t r5;
 	rt_uint32_t r6;
@@ -32,6 +35,7 @@ struct stack_frame
 	
 	struct exception_stack_frame exception_stack_frame;
 };
+
 
 rt_uint8_t	*rt_hw_stack_init(void 	*tentry,
 										void  *parameter,

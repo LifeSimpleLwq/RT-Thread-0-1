@@ -1,6 +1,8 @@
 #ifndef __RT_DEF_H__
 #define __RT_DEF_H__
 
+#include <rtconfig.h>
+
 typedef signed char 		rt_int8_t;
 typedef signed short		rt_int16_t;
 typedef signed long		rt_int32_t;
@@ -63,18 +65,58 @@ struct	rt_list_node
 };
 typedef struct rt_list_node rt_list_t;
 
-struct	rt_thread
-{
-		void 	*sp;
-		void	*entry;
-		void  *parameter;
-		void	*stack_addr;
-		rt_uint32_t 	static_size;
+struct rt_thread
+{		
+		char			name[RT_NAME_MAX];
+		rt_uint8_t  type;
+		rt_uint8_t	flag;
+		rt_list_t 	list;
+		rt_list_t	tlist;
 	
-		rt_list_t		tlist;
+		void 			*sp;
+		void			*entry;
+		void  		*parameter;
+		void			*stack_addr;
+		rt_uint32_t static_size;
+	
+		rt_ubase_t	remaining_tick;
 };
 typedef struct rt_thread *rt_thread_t;
 
+enum rt_object_class_type
+{
+	RT_Object_Class_Thread = 0,
+	RT_Object_Class_Semaphore,
+	RT_Object_Class_Mutex,
+	RT_Object_Class_Event,
+	RT_Object_Class_MailBox,
+	RT_Object_Class_MessageQueue,
+	RT_Object_Class_MemHeap,
+	RT_Object_Class_MemPool,
+	RT_Object_Class_Device,
+	RT_Object_Class_Timer,
+	RT_Object_Class_Module,
+	RT_Object_Class_Unknown,
+	RT_Object_Class_Static = 0x80
+};
+
+struct rt_object_information
+{
+	enum rt_object_class_type type;
+	rt_list_t		object_list;
+	rt_size_t		object_size;
+};
+
+struct rt_object
+{
+	char	name[RT_NAME_MAX];
+	rt_uint8_t type;
+	rt_uint8_t flag;
+	
+	rt_list_t list;
+};
+typedef struct rt_object *rt_object_t;
+		
 
 
 #endif

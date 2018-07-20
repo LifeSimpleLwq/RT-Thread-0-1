@@ -3,6 +3,7 @@
 .\objects\main.o: ..\rtthread\include\rtdef.h
 .\objects\main.o: ..\user\rtconfig.h
 .\objects\main.o: ..\rtthread\include\rtservice.h
+.\objects\main.o: ..\rtthread\include\rthw.h
 .\objects\main.o: D:\Keil\ARM\PACK\ARM\CMSIS\5.0.1\Device\ARM\ARMCM3\Include\ARMCM3.h
 .\objects\main.o: D:\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\core_cm3.h
 .\objects\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h

@@ -138,6 +138,19 @@ pendsv_exit
 	
 	ENDP
 		
+rt_hw_interrupt_disable		PROC
+	EXPORT		rt_hw_interrupt_disable
+	MRS			r0,PRIMASK
+	CPSID		I
+	BX			LR
+	ENDP
+
+rt_hw_interrupt_enable		PROC
+	EXPORT		rt_hw_interrupt_enable
+	MSR			PRIMASK,r0
+	BX			LR
+	ENDP
+		
 	ALIGN		4
 	
 	END
