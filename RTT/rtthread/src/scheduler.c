@@ -1,6 +1,9 @@
 #include <rtthread.h>
 #include <rthw.h>
 
+// 线程就绪优先级组
+rt_uint32_t rt_thread_ready_priority_group;
+
 /* 当前线程 */
 struct rt_thread *rt_current_thread;
 /* 线程就绪列表 */
@@ -9,6 +12,7 @@ rt_list_t rt_thread_priority_table[RT_THREAD_PRIORITY_MAX];
 /* 调度器初始化 */
 void rt_system_scheduler_init(void)
 {
+#if 0
 	register rt_base_t offset;
 	
 	for(offset = 0; offset < RT_THREAD_PRIORITY_MAX; offset++)
@@ -18,6 +22,20 @@ void rt_system_scheduler_init(void)
 	}
 	
 	rt_current_thread = RT_NULL;
+#else 
+	register	rt_base_t offset;
+	
+	for (offset = 0; offset < RT_THREAD_PRIORITY_MAX; offset ++)
+	{
+		rt_list_init(&rt_thread_priority_table[offset]);
+	}
+	
+	rt_current_priority = RT_THREAD_PRIORITY_MAX -1;
+	
+	rt_current_thread = RT_NULL;
+	
+	rt_thread_ready_priority_group = 0;
+#endif
 }
 
 /* 启动调度器 */
@@ -135,11 +153,38 @@ void rt_schedule(void)
 	
 }
 
+void rt_schedule_insert_thread(struct rt_thread *thread)
+{
+	register rt_base_t temp;
+	
+	temp = rt_hw_interrupt_disable();
+	
+	thread->stat = RT_THREAD_READY;
+	
+	rt_list_insert_before(&(rt_thread_priority_table[thread->current_priority]),
+								&thread->tlist);
+	
+	rt_thread_ready_priority_group |= thread->number_mask;
+	
+	rt_hw_interrupt_enable(temp);
+}
 
 
-
-
-
+void rt_schedule_remove_thread(struct rt_thread *thread)
+{
+	register rt_base_t temp;
+	
+	temp = rt_hw_interrupt_disable();
+	
+	rt_list_remove(&(thread->tlist));
+	
+	if (rt_list_isempty(&(rt_thread_priority_table[thread->current_priority])))
+	{
+		rt_thread_ready_priority_group &= ~thread->number_mask;
+	}
+	
+	rt_hw_interrupt_enable(temp);
+}
 
 
 
