@@ -72,7 +72,40 @@ typedef	rt_base_t			rt_off_t;
 #define 		RT_THREAD_STAT_SIGNAL_SUBSPEND	0X20
 #define 		RT_THREAD_STAT_SIGNAL_MASK			0XF0
 
-struct	rt_list_node
+#define		RT_TIMER_FLAG_DEACTIVATED	0X0
+#define		RT_TIMER_FLAG_ACTIVATED		0X1
+#define		RT_TIMER_FLAG_ONE_SHOT		0X0
+#define		RT_TIMER_FLAG_PERIODIC		0X2
+
+#define		RT_TIMER_FLAG_HARD_TIMER	0X0
+
+#define		RT_TIMER_FLAG_SOFT_TIMER	0X4
+
+#define 	RT_TIMER_CTRL_GET_TIME		0X1
+#define	RT_TIMER_CTRL_SET_TIME		0X0
+#define	RT_TIMER_CTRL_SET_ONESHOT	0X2
+#define	RT_TIMER_CTRL_SET_PERIODIC	0X3
+
+#ifndef RT_TIMER_SKIP_LIST_LEVEL
+#define RT_TIMER_SKIP_LIST_LEVEL          1
+#endif
+
+struct rt_timer
+{
+	struct rt_object parent;
+	
+	rt_list_t row[RT_TIMER_SKIP_LIST_LEVEL];
+	
+	void (*timeout_func)(void *parameter);
+	void 								*parameter;
+	
+	rt_tick_t	init_tick;
+	rt_tick_t	timeout_tick;
+};
+typedef struct rt_timer *rt_timer_t;
+
+
+struct rt_list_node
 {
 		struct	rt_list_node *next;
 		struct  rt_list_node *prev;
@@ -100,6 +133,8 @@ struct rt_thread
 	
 		rt_err_t		error;
 		rt_uint8_t	stat;		/* 线程状态 */
+	
+		struct rt_timer thread_timer;	/* 内置线程的定时器 */
 };
 typedef struct rt_thread *rt_thread_t;
 

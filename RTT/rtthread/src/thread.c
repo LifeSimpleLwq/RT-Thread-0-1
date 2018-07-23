@@ -83,6 +83,7 @@ rt_err_t rt_thread_startup(rt_thread_t thread)
 		/* 系统调度 */
 		rt_schedule();
 	}
+	return RT_EOK;
 }
 
 /* 该函数用于恢复一个线程，然后将其放到就绪列表 */
@@ -104,6 +105,7 @@ rt_err_t rt_thread_resume(rt_thread_t thread)
 	rt_hw_interrupt_enable(temp);
 
 	rt_schedule_insert_thread(thread);
+   return RT_EOK;
 }
 
 rt_thread_t rt_thread_self(void)
