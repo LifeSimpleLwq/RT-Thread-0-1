@@ -10,7 +10,8 @@ preblom:
 2，堆栈为何要初始化为0xdeadbeef
 3，PendSV优先级
 4, 什么情况下执行_reswitch
-
+5，thread->number_mask = 0;  为啥初始化为0
+	在rt_thread_startup中对number_mask进行了初始化
 
 
 

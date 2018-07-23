@@ -38,19 +38,22 @@ int main(void)
 						flag1_thread_entry,		/* 线程入口 */ 
 						RT_NULL,						/* 线程入口形参 */ 
 						&rt_flag1_thread_stack,			/* 线程栈起始地址 */ 
-						sizeof(rt_flag1_thread_stack));	/* 线程栈大小 */ 
+						sizeof(rt_flag1_thread_stack),/* 线程栈大小 */ 
+						2);	
 	/* 将线程插入到就绪列表 */ 
-	rt_list_insert_before(&(rt_thread_priority_table[0]),&(rt_flag1_thread.tlist));	
-	
+	//rt_list_insert_before(&(rt_thread_priority_table[0]),&(rt_flag1_thread.tlist));	
+	rt_thread_startup(&rt_flag1_thread);
 	
 	rt_thread_init(&rt_flag2_thread,			/* 线程控制块 */ 
 						"flag2_t",					/* 线程名字，字符串形式 */ 
 						flag2_thread_entry,		/* 线程入口 */ 
 						RT_NULL,						/* 线程入口形参 */ 
 						&rt_flag2_thread_stack,		/* 线程栈起始地址 */ 
-						sizeof(rt_flag2_thread_stack));	/* 线程栈大小 */ 
+						sizeof(rt_flag2_thread_stack),/* 线程栈大小 */ 
+						3);	
 	/* 将线程插入到就绪列表 */ 					
-	rt_list_insert_before(&(rt_thread_priority_table[1]),&(rt_flag2_thread.tlist));
+	//rt_list_insert_before(&(rt_thread_priority_table[1]),&(rt_flag2_thread.tlist));
+	rt_thread_startup(&rt_flag2_thread);
 
 	rt_system_scheduler_start();
 }

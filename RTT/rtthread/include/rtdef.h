@@ -67,10 +67,10 @@ typedef	rt_base_t			rt_off_t;
 #define 		RT_THREAD_STAT_MASK	0X0F
 
 #define 		RT_THREAD_STAT_SIGNAL			0X10
-#define 		RT_THREAD_STAT_SIGNAL_READY	(RT_THREAD_STAT_SIGNAL | 
+#define 		RT_THREAD_STAT_SIGNAL_READY	(RT_THREAD_STAT_SIGNAL | \
 														 RT_THREAD_READY)
-#defien 		RT_THREAD_STAT_SIGNAL_SUBSPEND	0X20
-#defien 		RT_THREAD_STAT_SIGNAL_MASK			0XF0
+#define 		RT_THREAD_STAT_SIGNAL_SUBSPEND	0X20
+#define 		RT_THREAD_STAT_SIGNAL_MASK			0XF0
 
 struct	rt_list_node
 {
@@ -99,7 +99,7 @@ struct rt_thread
 		rt_uint32_t	number_mask;
 	
 		rt_err_t		error;
-		rt_uint8_t	stat;
+		rt_uint8_t	stat;		/* Ïß³Ì×´Ì¬ */
 };
 typedef struct rt_thread *rt_thread_t;
 
