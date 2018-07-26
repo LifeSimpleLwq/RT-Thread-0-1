@@ -12,9 +12,14 @@ preblom:
 4, 什么情况下执行_reswitch
 5，thread->number_mask = 0;  为啥初始化为0
 	在rt_thread_startup中对number_mask进行了初始化
+6,timerout_tick 要求不能大于 RT_TICK_MAX /2？
+7, 保存中断的变量为何要用register修饰
 
+/*  */
 
-
+/**  
+ *
+ */
 
 
 
